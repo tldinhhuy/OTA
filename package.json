@@ -1,0 +1,13 @@
+{
+  "name": "OTA",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/tldinhhuy/OTA.git",
+  "author": "tldinhhuy <tldinhhuy@hcmut.edu.vn>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4",
+    "request": "^2.88.0",
+    "ws": "^6.2.0"
+  }
+}
