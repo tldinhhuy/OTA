@@ -1,43 +1,18 @@
-process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0'
-const request = require('request-promise');
-require('https').globalAgent.options.ca = require('ssl-root-cas/latest').create();
+const express = require('express');
+const bodyParser = require('body-parser');
 
-const TMTournamentsURL = 'https://auth.lar.tech:9060/oauth/token';
+const updateDeviceService =  require('./updateDevice/service');
 
+const app = express();
 
-var TM_AUTH = {
-    grand_type : 'password',
-    username : 'tldinhhuy@hcmut.edu.vn',
-    password : 'tldinhhuy'
+app.use(bodyParser.json());
+app.use(express.static('dist'));
 
-}
- 
-var auth = "nord_connect:nord_connect"
-// var auth = [
-//     clientID = 'nord_connect',
-//     client_Secret = 'nord_connect'
-// ]
-const getToken = async(resp) => {
-    try {
-        let resp = await request({
-            method: 'POST',
-            uri: 'https://auth.lar.tech:9060/oauth/token',
-            form: {
-                'username':'tldinhhuy@hcmut.edu.vn',
-                'password':'tldinhhuy',
-                'grant_type':'password'
-            },
-            headers: {
-                'Authorization': 'Basic cmVzdGFwaTpyZXN0YXBpc2VjcmV0',
-                'content-type': 'application/x-www-form-urlencoded', 
-            },
-        }).then(function(body){
-            console.log(body);
-        });
-        
-    } catch (error) {
-        console.log(error);
-    }
-}
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
+})
+app.post('/update/device', updateDeviceService.update )
 
-getToken();
+app.listen(3000, () => {
+    console.log('Server started')
+})
